@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/style.css">  
+</head> 
+
+<body>
+                           
+        <h1>Guess a movie title or hang</h1>                         
+        <img style="float: left; margin: 0px 35px 15px 0px;" src="assets/images/Hangman.png" width="200" pr-20/>
+        
+        <div id = BeginMessage>Press any Key to begin !!!</div>  
+        <br> 
+        <div id = Game style="font-weight: bold; text-align: center;"></div>
+        <br>
+        <div id = SelectedLetters style="font-weight: bold; color: red;  text-align:center;"></div> 
+      
+
+
+<!-- press any key to start game
+1 -- if game isnt alreay started set movie title 
+2 -- movie source- set up dashes in mainDiv with appropriate spaces by creating array with dashes for letters and spaces for spaces
+3 -- each key press compare letters against movie title and th en change golden source else build hangman ..
+     also show selected letters in another array. dont let user select letter again.
+repeat step 3 until hangman
+
+-->
+
+
+<script>
+    var isGameInProgress;
+    var targetMovie = "";
+    var targetMovieBuild = "";
+    var selectedLetters =[];
+//    var movies=["Children of the Corn", "The Exorcist", "Halloween", "CandyMan", "Nightmare on Elm Street"]
+    var movies=["Street"]
+
+    function replaceAt( letter) {
+  //  return string.substring(0, index) + replace + string.substring(index + 1);
+        var newString ="";
+        for( var i=0; i <targetMovie.length; i++){
+            if(targetMovie[i] == letter)
+            {
+                newString = targetMovieBuild.substring(0, i) + letter + targetMovieBuild.substring(i + 1);
+                targetMovieBuild = newString;
+            }
+        }
+         
+    }
+
+    function guessCharacter(letter){
+        var n = targetMovie.indexOf(letter);
+        
+        if ( n > -1 ){ //successfull guess
+            replaceAt(letter)
+            //add lett to htlm element
+            console.log(document.getElementById("Game"));
+            document.getElementById("Game").innerHTML = targetMovieBuild;
+        }
+        else{
+            selectedLetters.push(letter);
+            document.getElementById("SelectedLetters").innerHTML = selectedLetters + "You have " + (15 - selectedLetters.length) + " attempts before you hang" ;
+            //write out the letter in a div with a strike
+        }
+
+    }
+    
+    
+    // build initial title with dashes for letters and still show spaces    
+    function buildInitiialTitleDiv(targetMovie ){
+        var targetDiv = document.getElementById("Game"); 
+        var newDiv = document.createElement("TitleDiv");
+        
+       
+        targetMovieBuild = targetMovie.replace(/[a-zA-Z]/g, '-');
+        newDiv.textContent = "Movie Title:  " + targetMovieBuild;
+        //targetMovie = targetMovie
+        newDiv.set
+        targetDiv.appendChild(newDiv);e
+    }
+    
+    
+    //catch key selection if game isn't in proress start a new game
+    document.onkeyup = function(event) {  
+       if( isGameInProgress != true)
+       {
+        startGame(); 
+        
+       } 
+      // Guess a character
+      else { 
+          guessCharacter(event.key);
+        }
+      
+      
+    }       
+
+    // select movie from list of movies arrays if game isnt in progress
+    // set game to in progress    
+
+    function startGame(){
+        isGameInProgress = true;     
+        targetMovie = (movies[ Math.floor(Math.random() * movies.length)]).toLowerCase();         
+        buildInitiialTitleDiv(targetMovie);
+        isGameInProgress=true; 
+    }
+
+
+
+
+</script>
+
+
+
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
